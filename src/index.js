@@ -7,7 +7,18 @@ const onClickAdd = () => {
   // 変数に入ったので、 テキストボックスの値を初期化する（消す）
   document.getElementById("add-text").value = "";
   // alert(inputText); // 値をとれているかボタンを押してアラートを確認
+  // 未完了リストに追加する関数を実行
+  createIncompleteList(inputText);
+};
 
+// 未完了リストから指定の要素を削除
+const deleteFromIncompleteList = (target) => {
+  document.getElementById("incomplete-list").removeChild(target); // 指定された子要素を削除
+  // console.log(target);
+};
+
+// 未完了リストに追加する関数
+const createIncompleteList = (text) => {
   // div生成
   const div = document.createElement("div");
   div.className = "list-row"; // divタグにクラス名を追加する   <div class="list-row"></div>
@@ -15,7 +26,7 @@ const onClickAdd = () => {
 
   // pタグ生成
   const p = document.createElement("p");
-  p.innerText = inputText; // テキストボックスの値を代入
+  p.innerText = text; // 引数の値を代入
   // console.log(p);
 
   // button(完了)タグ生成
@@ -43,6 +54,19 @@ const onClickAdd = () => {
     // buttonタグ生成
     const backButton = document.createElement("button");
     backButton.innerText = "戻す";
+    backButton.addEventListener("click", () => {
+      // alert("戻す");
+      // 押された戻すボタンの親タグ（div)を完了リストから削除
+      const deleteTarget = backButton.parentNode;
+      document.getElementById("complete-list").removeChild(deleteTarget);
+
+      //テキストを取得
+      const text = backButton.parentNode.firstElementChild.innerText;
+      console.log(text);
+      // 未完了リストに追加する関数を実行
+      createIncompleteList(text);
+    });
+
     console.log(backButton);
 
     // div タグの子要素に各要素を設定
@@ -52,7 +76,7 @@ const onClickAdd = () => {
 
     // 完了リストに追加
     document.getElementById("complete-list").appendChild(addTarget);
-  }); // リストの要素にイベントを追加
+  });
 
   // button(削除)タグ生成
   const deleteButton = document.createElement("button");
@@ -73,12 +97,6 @@ const onClickAdd = () => {
 
   // 未完了のリスト li に追加
   document.getElementById("incomplete-list").appendChild(div);
-};
-
-// 未完了リストから指定の要素を削除
-const deleteFromIncompleteList = (target) => {
-  document.getElementById("incomplete-list").removeChild(target); // 指定された子要素を削除
-  // console.log(target);
 };
 
 // html で id=add-button のボタンのクリックイベント時にonClickAdd関数を実行
